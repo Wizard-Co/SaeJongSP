@@ -58,7 +58,7 @@
                             <CheckBox x:Name="chkArticleSrh" Checked="chkArticleSrh_Checked" Unchecked="chkArticleSrh_Unchecked" VerticalAlignment="Center" />
                         </Viewbox>
                         <Viewbox Style="{DynamicResource ViewBoxSetMaxMinHeight}">
-                            <TextBlock Text="품    명 " Style="{DynamicResource TextBlockInViewBoxSearch}" />
+                            <TextBlock Text="품    명맞냐 " Style="{DynamicResource TextBlockInViewBoxSearch}" />
                         </Viewbox>
 
                     </StackPanel>
