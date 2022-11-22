@@ -879,16 +879,15 @@ namespace WizMes_SaeJongSP
                 {
                     return;
                 }
-                //원자재 선택시 KG, 품명그룹 01 =원자재
-                if (cboArticleGrp.SelectedValue.Equals("01"))
-                {
-                    cboUnitClss.SelectedValue = "2";
-                }
-                else    //나머지는 EA 
+                //제품,반제품은 EA로 
+                if (cboArticleGrp.SelectedValue.Equals("03"))    
                 {
                     cboUnitClss.SelectedValue = "0";
                 }
-
+                else if (cboArticleGrp.SelectedValue.Equals("05"))
+                {
+                    cboUnitClss.SelectedValue = "0";
+                }
                 //cboProductGrpID.IsDropDownOpen = true;
             }
         }
@@ -1082,12 +1081,20 @@ namespace WizMes_SaeJongSP
                                 UnitPriceClss = dr["UnitPriceClss"].ToString(),
 
                                 FreeStuffinYN = dr["FreeStuffinYN"].ToString(), // 무검사입고품여부
-                                 
 
 
 
-                                ProdDiffiLevel = stringFormatN2(dr["ProdDiffiLevel"])
 
+
+                                ProdDiffiLevel = stringFormatN2(dr["ProdDiffiLevel"]),
+
+                                Exdiameter = stringFormatN2(dr["Exdiameter"]),
+                                Width = stringFormatN2(dr["Width"]),
+                                Height = stringFormatN2(dr["Height"]),
+                                Thickness = stringFormatN2(dr["Thickness"]),
+                                Length = stringFormatN2(dr["Length"]),
+                                Breadth = stringFormatN2(dr["Breadth"]),
+                                Quality = dr["Quality"].ToString() // 재질
                             };
 
                             // 사용 여부 UseClssName 으로 바인딩함
@@ -1312,17 +1319,23 @@ namespace WizMes_SaeJongSP
                     sqlParameter.Add("OutUnitPrice", ConvertDouble(txtOutUnitPrice.Text));
                     sqlParameter.Add("sFTAMgrYN", cboFTAMgrYN.SelectedValue != null ? cboFTAMgrYN.SelectedValue.ToString() : "");
                     sqlParameter.Add("sHSCode", txtHSCode.Text);
-                    
+                    sqlParameter.Add("sCoatingSpec", ""); //세로
                     sqlParameter.Add("sBuySaleMainYN", chkBuySaleMainYN.IsChecked == true ? "Y" : "N");
 
                     sqlParameter.Add("sComments", txtComments.Text);
                     sqlParameter.Add("sPART_ATTR", cboPART_ATTR.SelectedIndex == -1 || cboPART_ATTR.SelectedValue == null ? "" : cboPART_ATTR.SelectedValue.ToString());
                     sqlParameter.Add("sPatternID", cboPattern.SelectedIndex == -1 || cboPattern.SelectedValue == null ? "" : cboPattern.SelectedValue.ToString());
 
-
-                    sqlParameter.Add("sCoatingSpec", txtCoatingSpec.Text); //도면번호
-
                     sqlParameter.Add("sFreeStuffinYN", cboFreeStuffinYN.SelectedValue != null ? cboFreeStuffinYN.SelectedValue.ToString() : ""); //무검사 입고품 여부Y/N
+
+                    sqlParameter.Add("sWidth", ConvertDouble(txtWidth.Text));            //가로
+                    sqlParameter.Add("sHeight", ConvertDouble(txtHeight.Text));          //세로
+                    sqlParameter.Add("sThickness", ConvertDouble(txtThickness.Text));       //두께
+                    sqlParameter.Add("sLength", ConvertDouble(txtLength.Text));          //길이
+                    sqlParameter.Add("sBreadth", ConvertDouble(txtBreadth.Text));          //폭
+                    sqlParameter.Add("sExdiameter", ConvertDouble(txtExdiameter.Text));          //폭
+
+                    sqlParameter.Add("sQuality",txtQuality.Text);                      // 재질
 
                     #region 추가
                     if (strFlag.Equals("I"))
@@ -2629,7 +2642,7 @@ namespace WizMes_SaeJongSP
         //}
 
         // 21. 도금사양
-        private void txtCoatingSpec_KeyDown(object sender, KeyEventArgs e)
+        private void TxtWidth_KeyDown(object sender, KeyEventArgs e)
         {
             //if (e.Key == Key.Enter)
             //{
@@ -2768,6 +2781,18 @@ namespace WizMes_SaeJongSP
             }
         }
 
+        private void TxtHeight_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TxtBreadth_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+
+
 
 
         ////숫자 외에 다른 문자열 못들어오도록
@@ -2899,6 +2924,14 @@ namespace WizMes_SaeJongSP
         public string CotingType { get; set; } // 내경
 
         public string ProdDiffiLevel { get; set; } // 난이도 
+
+
+        public string Width { get; set; } // --가로 
+        public string Height { get; set; } // --세로 
+        public string Thickness { get; set; } // --두께 
+        public string Breadth { get; set; } // --폭 
+        public string Quality { get; set; } // --재질 
+
 
         public BitmapImage ImageView { get; set; }
 
